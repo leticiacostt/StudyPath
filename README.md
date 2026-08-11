@@ -11,6 +11,12 @@ O projeto começou como uma prática de programação e está sendo evoluído gr
 * Editar estudos
 * Remover estudos
 * Identificação dos estudos por ID
+* Reorganização automática dos IDs após a remoção de um estudo
+* Edição individual de matéria, assunto, data e horas
+* Validação dos campos de entrada
+* Validação de horas em formato DD/MM/AAAA
+* Validação de horas estudadas
+* Tratamento de entradas inválidas
 * Armazenamento dos dados em JSON
 * Exibição dos estudos em tabela no terminal
 
@@ -28,6 +34,7 @@ StudyPath/
 │
 ├── main.py
 ├── funcoes.py
+├── json.manager.py
 ├── estudos.json
 ├── README.md
 └── .gitignore
@@ -49,7 +56,11 @@ Durante o desenvolvimento do projeto, estão sendo aplicados conceitos como:
 * JSON
 * CRUD
 * IDs
-* Organização de código
+* Validação de dados
+* Tratamento de exceções
+* try/except
+* datetime
+* Organização e modularizaçãode código
 
 ## 🎯 Objetivo
 
@@ -57,16 +68,18 @@ O objetivo inicial do StudyPath é servir como um projeto prático para consolid
 
 A ideia é evoluir o projeto gradualmente, adicionando novas funcionalidades conforme novos conhecimentos forem adquiridos.
 
+Além de funcionar como uma aplicação, o StudyPath também serve como um laboratório para aplicar conceitos de programação em um projeto desenvolvido do zero.
+
 ## 🔮 Próximas evoluções
 
 Algumas possibilidades para futuras versões:
 
-* Validação dos dados
-* Edição completa dos registros
+* Refatoração e melhoria da organização do código
+* Criação de funções reutilizáveis para validação dos dados
 * Melhorias na interface do terminal
-* Migração do JSON para banco de dados
-* Criação de dashboard
-* Roadmaps de aprendizagem
+* Migração do armazenamento em JSON para banco de dados
+* Criação de dashboard para acompanhamento dos estudos
+* Criação de roadmaps de aprendizagem
 * Integração com APIs
 * Recomendações de estudo
 * Recomendações personalizadas utilizando inteligência artificial
