@@ -1,12 +1,12 @@
-import json
+from json_manager import carregar_dados, salvar_dados
 from tabulate import tabulate
 
 # Adiciona um novo arquivo JSON
 def adicionar_estudo():
-    dia_estudado = input("Em qual dia da semana você estudou? ")
-    horas_estudadas = input("Quantas horas você estudou? ")
-    materia_estudada = input("Qual matéria você estudou hoje? ")
-    assunto_estudado = input("Qual o assunto estudado? ")
+    dia_estudado = input("Em qual dia da semana você estudou? ").strip()
+    horas_estudadas = input("Quantas horas você estudou? ").strip()
+    materia_estudada = input("Qual matéria você estudou hoje? ").strip()
+    assunto_estudado = input("Qual o assunto estudado? ").strip()
 
     # Cria um dicionário com as informações do novo estudo
     novo_estudo = {
@@ -16,9 +16,7 @@ def adicionar_estudo():
         "assunto": assunto_estudado
     }
 
-    # Abre o arquivo JSON para leitura
-    with open("estudos.json", "r", encoding="utf-8") as arquivo:
-        dados = json.load(arquivo)
+    dados = carregar_dados()
 
     # Define o ID ndo novo estudo
     proximo_id = (len(dados["estudos"])) + 1
@@ -29,17 +27,13 @@ def adicionar_estudo():
     # Adiciona o novo estudo à lista de estudos
     dados["estudos"].append(novo_estudo)
 
-    # Abre o arquivo JSON para escrita e salva os dados atualizados
-    with open("estudos.json", "w", encoding="utf-8") as arquivo:
-        json.dump(dados, arquivo, indent=4, ensure_ascii=False)
+    salvar_dados(dados)
     
-        print("Matéria adicionada!")
+    print("Matéria adicionada!")
 
 # Exibe todos os estudos cadastrados
 def ver_estudos():
-    # Abre o arquivo JSON para leitura
-    with open("estudos.json", "r", encoding="utf-8") as arquivo:
-        conteudo = json.load(arquivo)
+    conteudo = carregar_dados()
 
     # Cria uma lista para armazenar os estudos
     tabela = []
@@ -68,9 +62,7 @@ def ver_estudos():
 def editar_estudo():
     id_editar = int(input("Qual o ID do estudo que deseja editar? "))
 
-    # Abre o arquivo JSON para leitura
-    with open("estudos.json", "r", encoding="utf-8") as arquivo:
-        dados = json.load(arquivo)
+    dados = carregar_dados()
 
     for estudo in dados["estudos"]:
         if estudo["id"] == id_editar:
@@ -81,32 +73,20 @@ def editar_estudo():
 
             break
 
-    with open("estudos.json", "w", encoding="utf-8") as arquivo:
-        json.dump(dados, arquivo, indent=4, ensure_ascii=False)
+    salvar_dados(dados)
 
 # Remove um estudo do arquivo JSON
 def remover_estudos():
-    dia_remover = input("Qual dia da semana você deseja remover? ")
-    horas_remover = input("Qual carga horária você deseja remover? ")
-    materia_remover = input("Qual matéria você deseja remover? ")
-    assunto_remover = input("Qual assunto você deseja remover? ")
+    id_remover = int(input("Qual ID de estudo você deseja remover? "))
 
-    # Abre o arquivo JSON para leitura
-    with open("estudos.json", "r", encoding="utf=8") as arquivo:
-        materias = json.load(arquivo)
+    materias = carregar_dados()
 
     # Percorre os estudos procurando o registro informado pelo usuário
     for materia in materias["estudos"]:
-        if(materia["dia"] == dia_remover and
-            materia["horas"] == horas_remover and
-            materia["materia"] == materia_remover and
-            materia["assunto"] == assunto_remover):
-
-            # Remove o estudo encontrado da lista
+        if materia["id"] == id_remover:
             materias["estudos"].remove(materia)
-
-    # Salva o arquivo JSON com os dados atualizados
-    with open("estudos.json", "w", encoding="utf=8") as arquivo:
-        json.dump(materias, arquivo, indent=4, ensure_ascii=False)
-
-    print("Matéria removida!")
+            salvar_dados(materias)
+            print("Matéria Removida!")
+            return
+        
+    print("Estudo não encontrado!")
