@@ -1,12 +1,18 @@
-from json_manager import carregar_dados, salvar_dados
 from tabulate import tabulate
 from datetime import datetime
+from banco import (
+    buscar_estudos,
+    buscar_materia,
+    inserir_estudo,
+    editar_estudo_banco,
+    remover_estudo
+)
 
 # Adiciona um novo arquivo JSON
 def adicionar_estudo():
 
     while True:
-        materia_estudada = input("Qual matéria você estudou hoje? ").strip().title()
+        materia_estudada = input("Qual matéria você estudou hoje? ").strip()
 
         if materia_estudada == "":
             print("A matéria não pode ficar vazia!")
@@ -46,56 +52,46 @@ def adicionar_estudo():
         except ValueError:
             print("Informe um número válido!")
 
-    # Cria um dicionário com as informações do novo estudo
-    novo_estudo = {
-        "materia": materia_estudada,
-        "assunto": assunto_estudado,
-        "data": data_estudada,
-        "horas": horas_estudadas
-    }
+    materia = buscar_materia(materia_estudada)
 
-    dados = carregar_dados()
+    if materia is None:
+        print("Matéria não cadastrada!")
+        return
 
-    # Define o ID ndo novo estudo
-    if dados["estudos"]:
-        proximo_id = max(estudo["id"] for estudo in dados ["estudos"]) + 1
-    else:
-        proximo_id = 1
+    materia_id = materia[0]
 
-    #Adiciona o ID ao novo estudo
-    novo_estudo["id"] = proximo_id
+    inserir_estudo(
+        materia_id,
+        assunto_estudado,
+        data_estudada,
+        horas_estudadas
+    )
 
-    # Adiciona o novo estudo à lista de estudos
-    dados["estudos"].append(novo_estudo)
-
-    salvar_dados(dados)
-    
-    print("Matéria adicionada!")
+    print("Estudo adicionado!")
 
 # Exibe todos os estudos cadastrados
 def ver_estudos():
-    conteudo = carregar_dados()
+    resultados = buscar_estudos()
 
     # Cria uma lista para armazenar os estudos
     tabela = []
 
-
-    # Percorre cada estudo armazenado no JSON
-    for estudo in conteudo["estudos"]:
+    for numero, estudo in enumerate(resultados, start=1):
         tabela.append([
-            estudo["id"],
-            estudo["materia"],
-            estudo["assunto"],
-            estudo["data"], 
-            estudo["horas"]
+            numero,
+            estudo[0],
+            estudo[1],
+            estudo[2],
+            estudo[3],
+            estudo[4]
         ])
 
     print("\n========== MATÉRIAS ESTUDADAS ==========\n")
 
     # Exibe os estudos em formato de tabela
     print(tabulate(
-        tabela, 
-        headers = ["ID", "Matéria", "Assunto", "Data", "Horas"],
+        tabela,
+        headers=["Nº", "ID", "Matéria", "Assunto", "Data", "Horas"],
         tablefmt="grid"
     ))
 
@@ -108,87 +104,107 @@ def editar_estudo():
         except ValueError:
             print("Digite um ID válido!")
 
-    dados = carregar_dados()
+    estudos = buscar_estudos()
 
-    for estudo in dados["estudos"]:
-        if estudo["id"] == id_editar:
-            print("Estudo encontrado!")
+    estudo_encontrado = None
 
+    for estudo in estudos:
+        if estudo[0] == id_editar:
+            estudo_encontrado = estudo
+            break
+
+    if estudo_encontrado is None:
+        print("Estudo não encontrado!")
+        return
+
+    print("Estudo encontrado!")
+
+    materia_id = buscar_materia(estudo_encontrado[1])[0]
+    assunto = estudo_encontrado[2]
+    data = estudo_encontrado[3]
+    horas = estudo_encontrado[4]
+
+    while True:
+        print("\n1 - Alterar matéria")
+        print("2 - Alterar assunto")
+        print("3 - Alterar data")
+        print("4 - Alterar horas")
+        print("5 - Finalizar edição")
+
+        opcao = input("Escolha uma opção: ").strip()
+
+        if opcao == "1":
             while True:
-                print("\n1 - Alterar matéria")
-                print("2 - Alterar assunto")
-                print("3 - Alterar data")
-                print("4 - Alterar horas")
-                print("5 - Finalizar edição")
+                nova_materia = input("Digite a nova matéria: ").strip()
 
-                opcao = input("Escolha uma opção: ").strip()
-
-                if opcao == "1":
-                # Altera matéria
-                    while True:
-                        nova_materia = input("Digite a nova matéria: ").strip().title()
-
-                        if nova_materia == "":
-                            print("A matéria não pode ficar vazia!")
-                        else:
-                            estudo["materia"] = nova_materia
-                            print("Matéria atualizada!")
-                            break
-
-                elif opcao == "2":
-                    # Altera o assunto
-                    while True:
-                        novo_assunto = input("Digite o novo assunto: ").strip().title()
-
-                        if novo_assunto == "":
-                            print("O assunto não pode ficar vazio!")
-                        else:
-                            estudo["assunto"] = novo_assunto
-                            print("Assunto atualizado!")
-                            break
-
-                elif opcao == "3":
-                    # Altera a data
-                    while True:
-                        nova_data = input("Digite a nova data (DD/MM/AAAA): ")
-
-                        if nova_data == "":
-                            print("A data não pode ficar vazia!")
-                            continue
-
-                        try:
-                            datetime.strptime(nova_data, "%d/%m/%Y")
-                            estudo["data"] = nova_data
-                            print("Data atualizada!")
-                            break
-                        except ValueError:
-                            print("Informe uma data válida no formato DD/MM/AAAA!")
-
-                elif opcao == "4":
-                    # Altera as horas
-                    while True:
-                        try:
-                            novas_horas = float(input("Digite as novas horas: "))
-
-                            if novas_horas <= 0:
-                                print("As horas devem ser maiores do que zero!")
-                            else:
-                                estudo["horas"] = novas_horas
-                                print("Horas atualizadas!")
-                                break
-
-                        except ValueError:
-                            print("Informe um número válido!")
-
-                elif opcao == "5":
-                    salvar_dados(dados)
-                    print("Edição finalizada!")
-                    return
-
+                if nova_materia == "":
+                    print("A matéria não pode ficar vazia!")
                 else:
-                    print ("opção inválida! Escolha uma opção de 1 a 5.")
+                    materia = buscar_materia(nova_materia)
 
-    print("Estudo não encontrado!")
+                    if materia is None:
+                        print("Matéria não cadastrada!")
+                    else:
+                        materia_id = materia[0]
+                        print("Matéria atualizada!")
+                        break
+
+        elif opcao == "2":
+            while True:
+                novo_assunto = input("Digite o novo assunto: ").strip().title()
+
+                if novo_assunto == "":
+                    print("O assunto não pode ficar vazio!")
+                else:
+                    assunto = novo_assunto
+                    print("Assunto atualizado!")
+                    break
+
+        elif opcao == "3":
+            while True:
+                nova_data = input("Digite a nova data (DD/MM/AAAA): ").strip()
+
+                if nova_data == "":
+                    print("A data não pode ficar vazia!")
+                    continue
+
+                try:
+                    datetime.strptime(nova_data, "%d/%m/%Y")
+                    data = nova_data
+                    print("Data atualizada!")
+                    break
+                except ValueError:
+                    print("Informe uma data válida no formato DD/MM/AAAA!")
+
+        elif opcao == "4":
+            while True:
+                try:
+                    novas_horas = float(input("Digite as novas horas: "))
+
+                    if novas_horas <= 0:
+                        print("As horas devem ser maiores do que zero!")
+                    else:
+                        horas = novas_horas
+                        print("Horas atualizadas!")
+                        break
+
+                except ValueError:
+                    print("Informe um número válido!")
+
+        elif opcao == "5":
+            editar_estudo_banco(
+                id_editar,
+                materia_id,
+                assunto,
+                data,
+                horas
+            )
+
+            print("Edição finalizada!")
+            return
+
+        else:
+            print("Opção inválida! Escolha uma opção de 1 a 5.")
 
 # Remove um estudo do arquivo JSON
 def remover_estudos():
@@ -199,19 +215,19 @@ def remover_estudos():
         except ValueError:
             print("Digite um ID válido!")
 
-    materias = carregar_dados()
+    estudos = buscar_estudos()
 
-    # Percorre os estudos procurando o registro informado pelo usuário
-    for materia in materias["estudos"]:
-        if materia["id"] == id_remover:
-            materias["estudos"].remove(materia)
+    estudo_encontrado = False
 
-            # Reorganiza os estudos procurando o registro informado pelo usuário
-            for indice, estudo in enumerate(materias["estudos"], start=1):
-                estudo["id"] = indice
+    for estudo in estudos:
+        if estudo[0] == id_remover:
+            estudo_encontrado = True
+            break
 
-            salvar_dados(materias)
-            print("Matéria Removida!")
-            return
-        
-    print("Estudo não encontrado!")
+    if not estudo_encontrado:
+        print("Estudo não encontrado!")
+        return
+
+    remover_estudo(id_remover)
+
+    print("Estudo removido!")
