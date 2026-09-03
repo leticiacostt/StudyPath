@@ -1,3 +1,4 @@
+#Regras e funcionalidades do StudyPath, como adicionar, editar, remover e visualizar estudos
 from tabulate import tabulate
 from datetime import datetime
 from banco import (
