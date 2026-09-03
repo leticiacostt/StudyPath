@@ -1,3 +1,4 @@
+#faz a conexão e operações relacionadas ao banco
 import os
 import psycopg
 from dotenv import load_dotenv

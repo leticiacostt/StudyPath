@@ -1,3 +1,4 @@
+#coordena tudo e mostra o menu para o usuário, chamando as funções do funcoes.py
 from funcoes import adicionar_estudo, ver_estudos, editar_estudo, remover_estudos
 
 print("========== DIÁRIO DE ESTUDOS ===========")
@@ -8,7 +9,7 @@ while True:
     print("2- Ver matérias")
     print("3- Editar matéria")
     print("4- Remover matéria")
-    print("5- Sair")
+    print("6- Sair")
 
     opcao = input("Escolha uma opção: ")
 
