@@ -9,7 +9,7 @@ while True:
     print("2- Ver matérias")
     print("3- Editar matéria")
     print("4- Remover matéria")
-    print("6- Sair")
+    print("5- Sair")
 
     opcao = input("Escolha uma opção: ")
 
@@ -35,4 +35,4 @@ while True:
         break
 
     else:
-        print("Opção inválida! Escolha uma opção entre 1 e 4.")
+        print("Opção inválida! Escolha uma opção entre 1 e 5.")

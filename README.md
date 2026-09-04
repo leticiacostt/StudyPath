@@ -2,57 +2,37 @@
 
 Aplicação desenvolvida em Python para registrar, organizar e acompanhar uma jornada de estudos.
 
-O projeto começou como uma prática de programação e está sendo evoluído gradualmente conforme novos conceitos são aprendidos.
+O projeto começou como uma prática de programação e evoluiu para uma aplicação integrada a banco de dados, permitindo aplicar conceitos de **Python, SQL e PostgreSQL** em um projeto desenvolvido do zero.
 
-Atualmente, o StudyPath utiliza **PostgreSQL** para armazenamento dos dados e possui integração entre Python e banco de dados.
-
-## 🚀 Funcionalidades atuais
+## 🚀 Funcionalidades
 
 * Adicionar estudos
 * Visualizar estudos
 * Editar estudos
 * Remover estudos
-* Identificação dos estudos por ID
-* Edição individual de matéria, assunto, data e horas
-* Validação dos campos de entrada
-* Validação de datas no formato DD/MM/AAAA
-* Validação de horas estudadas
-* Tratamento de entradas inválidas
+* Identificação dos registros por ID
+* Validação dos dados de entrada
+* Validação de datas e horas estudadas
 * Armazenamento dos dados em PostgreSQL
-* Exibição dos estudos em tabela no terminal
-* Relacionamento entre matérias e estudos
 * Operações CRUD integradas ao banco de dados
+* Exibição dos registros em tabela no terminal
 
-## 🛠️ Tecnologias utilizadas
+## 🛠️ Tecnologias
 
 * Python
 * PostgreSQL
+* SQL
 * Psycopg
 * python-dotenv
 * Tabulate
 * Git
 * GitHub
 
-## 📁 Estrutura do projeto
-
-```text
-StudyPath/
-│
-├── main.py
-├── funcoes.py
-├── banco.py
-├── README.md
-├── .gitignore
-└── .env
-```
-
-> O arquivo `.env` é utilizado para armazenar informações sensíveis da conexão com o banco de dados e não deve ser enviado para o GitHub.
-
 ## 🗄️ Banco de dados
 
-O StudyPath utiliza PostgreSQL como sistema de gerenciamento de banco de dados.
+O StudyPath utiliza **PostgreSQL** para armazenamento e gerenciamento dos dados.
 
-O banco de dados possui atualmente duas tabelas principais:
+Atualmente, o banco possui duas tabelas principais:
 
 ```text
 materias
@@ -62,101 +42,81 @@ materias
 estudos
 ```
 
-### Tabela `materias`
+### `materias`
 
 Armazena as matérias cadastradas.
-
-Principais campos:
 
 * `id` — chave primária
 * `nome` — nome da matéria
 
-### Tabela `estudos`
+### `estudos`
 
 Armazena os registros de estudos.
 
-Principais campos:
-
 * `id` — chave primária
-* `materia_id` — chave estrangeira relacionada à tabela `materias`
+* `materia_id` — chave estrangeira relacionada a `materias`
 * `assunto` — assunto estudado
 * `data` — data do estudo
 * `horas` — quantidade de horas estudadas
 
-A relação entre as tabelas é de **1:N (um para muitos)**: uma matéria pode possuir vários registros de estudo.
+A relação entre as tabelas é **1:N (um para muitos)**: uma matéria pode possuir vários registros de estudo.
 
-## 📚 Conceitos praticados
+## 🏗️ Estrutura
 
-Durante o desenvolvimento do projeto, estão sendo aplicados conceitos como:
+```text
+StudyPath/
+│
+├── main.py
+├── funcoes.py
+├── banco.py
+├── studypath.sql
+├── README.md
+└── .gitignore
+```
 
-* Variáveis
-* Entrada e saída de dados
-* Estruturas condicionais
-* Estruturas de repetição
-* Funções
-* Módulos
-* Listas
-* Dicionários
-* CRUD
-* IDs
-* Validação de dados
+### Responsabilidades
+
+* `main.py` — execução da aplicação e menu principal
+* `funcoes.py` — lógica da aplicação, validações e interação com o usuário
+* `banco.py` — conexão com PostgreSQL e operações SQL
+* `studypath.sql` — estrutura e configuração do banco de dados
+
+As informações sensíveis da conexão com o banco são armazenadas em variáveis de ambiente e não são enviadas para o GitHub.
+
+## 📚 Conceitos aplicados
+
+O projeto reúne conceitos de programação e banco de dados, incluindo:
+
+* Funções e modularização
+* Estruturas condicionais e de repetição
+* Validação e tratamento de dados
 * Tratamento de exceções
-* `try/except`
-* `datetime`
-* Organização e modularização de código
+* CRUD
 * SQL
 * PostgreSQL
-* Chave primária
-* Chave estrangeira
-* Relacionamento entre tabelas
+* Chaves primárias e estrangeiras
+* Relacionamentos entre tabelas
 * JOIN
 * Integração Python + PostgreSQL
 * Separação de responsabilidades
 
-## 🏗️ Arquitetura atual
-
-O projeto utiliza uma separação simples de responsabilidades:
-
-```text
-main.py
-   ↓
-funcoes.py
-   ↓
-banco.py
-   ↓
-PostgreSQL
-```
-
-* `main.py` — responsável pela execução e menu da aplicação
-* `funcoes.py` — responsável pela lógica da aplicação, interação com o usuário e apresentação dos dados
-* `banco.py` — responsável pela conexão com o PostgreSQL e pelas operações SQL
-* PostgreSQL — responsável pelo armazenamento dos dados
-
 ## 🎯 Objetivo
 
-O objetivo do StudyPath é servir como um projeto prático para consolidar conhecimentos de programação e desenvolvimento de software.
+O StudyPath é um projeto de aprendizado contínuo criado para **praticar programação e desenvolvimento de software na prática**.
 
-A ideia é evoluir o projeto gradualmente, adicionando novas funcionalidades conforme novos conhecimentos forem adquiridos.
+A aplicação serve como um laboratório para aplicar novos conhecimentos em Python, bancos de dados, SQL e outras tecnologias à medida que o projeto evolui.
 
-Além de funcionar como uma aplicação, o StudyPath também serve como um laboratório para aplicar conceitos de programação, banco de dados e integração entre diferentes tecnologias em um projeto desenvolvido do zero.
+## 🔮 Próximos passos
 
-## 🔮 Próximas evoluções
+Entre as próximas evoluções planejadas estão:
 
-Algumas possibilidades para futuras versões:
-
-* Refatoração e melhoria da organização do código
-* Criação de funções reutilizáveis para validação dos dados
-* Melhorias na interface do terminal
+* Melhorias na organização e arquitetura do código
+* Novas funcionalidades para gerenciamento de matérias
 * Melhorias nas consultas SQL
-* Criação de novas funcionalidades para gerenciamento de matérias
-* Criação de dashboard para acompanhamento dos estudos
-* Criação de roadmaps de aprendizagem
+* Dashboard para acompanhamento dos estudos
 * Integração com APIs
-* Recomendações de estudo
-* Recomendações personalizadas utilizando inteligência artificial
+* Funcionalidades utilizando inteligência artificial
 
-## 📌 Sobre o projeto
+---
 
-O StudyPath é um projeto de aprendizado contínuo. Sua estrutura e funcionalidades serão modificadas e aprimoradas conforme a evolução dos conhecimentos em programação.
-
-> O objetivo não é apenas construir o sistema, mas utilizá-lo como laboratório para aprender e aplicar novos conceitos de programação, banco de dados e desenvolvimento de software.
+**StudyPath** — um projeto desenvolvido para aprender, praticar e evoluir. 🚀
