@@ -27,6 +27,7 @@ O projeto começou como uma prática de programação e evoluiu para uma aplica�
 * Tabulate
 * Git
 * GitHub
+* Power BI
 
 ## 🗄️ Banco de dados
 
@@ -61,6 +62,8 @@ Armazena os registros de estudos.
 
 A relação entre as tabelas é **1:N (um para muitos)**: uma matéria pode possuir vários registros de estudo.
 
+O script SQL responsável pela estrutura do banco está disponível em `sql/banco.sql` na branch `feature/postgresql`.
+
 ## 🏗️ Estrutura
 
 ```text
@@ -69,7 +72,7 @@ StudyPath/
 ├── main.py
 ├── funcoes.py
 ├── banco.py
-├── studypath.sql
+├── powerbi/
 ├── README.md
 └── .gitignore
 ```
@@ -79,13 +82,13 @@ StudyPath/
 * `main.py` — execução da aplicação e menu principal
 * `funcoes.py` — lógica da aplicação, validações e interação com o usuário
 * `banco.py` — conexão com PostgreSQL e operações SQL
-* `studypath.sql` — estrutura e configuração do banco de dados
+* `powerbi/` — arquivos relacionados às análises e visualizações dos dados
 
 As informações sensíveis da conexão com o banco são armazenadas em variáveis de ambiente e não são enviadas para o GitHub.
 
 ## 📚 Conceitos aplicados
 
-O projeto reúne conceitos de programação e banco de dados, incluindo:
+O projeto reúne conceitos de programação, banco de dados e análise de dados, incluindo:
 
 * Funções e modularização
 * Estruturas condicionais e de repetição
@@ -99,12 +102,14 @@ O projeto reúne conceitos de programação e banco de dados, incluindo:
 * JOIN
 * Integração Python + PostgreSQL
 * Separação de responsabilidades
+* Análise e visualização de dados
+* Power BI
 
 ## 🎯 Objetivo
 
 O StudyPath é um projeto de aprendizado contínuo criado para **praticar programação e desenvolvimento de software na prática**.
 
-A aplicação serve como um laboratório para aplicar novos conhecimentos em Python, bancos de dados, SQL e outras tecnologias à medida que o projeto evolui.
+A aplicação serve como um laboratório para aplicar novos conhecimentos em Python, bancos de dados, SQL, análise de dados e outras tecnologias à medida que o projeto evolui.
 
 ## 🔮 Próximos passos
 
@@ -113,7 +118,7 @@ Entre as próximas evoluções planejadas estão:
 * Melhorias na organização e arquitetura do código
 * Novas funcionalidades para gerenciamento de matérias
 * Melhorias nas consultas SQL
-* Dashboard para acompanhamento dos estudos
+* Expansão do dashboard para acompanhamento dos estudos
 * Integração com APIs
 * Funcionalidades utilizando inteligência artificial
 
